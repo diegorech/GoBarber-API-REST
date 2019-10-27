@@ -1,7 +1,15 @@
 # rocketseat-bootcamp-module2
-
-
 Starting the goBarber project
+
+
+Yarn to download all dependencies
+
+Yarn dev to start server
+
+
+
+
+
 
 Notes:
 
