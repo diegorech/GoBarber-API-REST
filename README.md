@@ -1,4 +1,4 @@
-# rocketseat-bootcamp-module2
+# rocketseat-bootcamp
 Starting the goBarber project
 
 
