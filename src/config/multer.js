@@ -13,7 +13,7 @@ export default {
         if (err) return cb(err);
         // extname pega apenas a extensão do arquivo
         return cb(null, res.toString('hex') + extname(file.originalname));
-      }); // com isso nunca será salvo 2 fotos com mesmo nome
+      }); // com isso nunca será salvo 2 fotos com mesmo n                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ome
     },
   }),
 };

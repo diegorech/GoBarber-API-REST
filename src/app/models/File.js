@@ -9,6 +9,15 @@ class File extends Model {
       {
         name: Sequelize.STRING,
         path: Sequelize.STRING,
+        url: {
+          // Campo virtual para poder entregar para o front-end a url da imagem
+          // front não terá que fazer nenhum processo para ir atrás da imagem
+          type: Sequelize.VIRTUAL,
+          get() {
+            return `http://localhost:3333/files/${this.path}`;
+          },
+          // método get() define como o valor será formatado
+        },
       },
       {
         sequelize,
