@@ -23,3 +23,5 @@ Notes:
 -- All files with .js will always exec sucrase/register before the node command
     -- That's what '-r' do
 
+* module path from node
+
