@@ -15,6 +15,8 @@ export default async (req, res, next) => {
   try {
     const decoded = await promisify(jwt.verify)(token, authConfig.secret);
 
+    // Cria o id do usuário em uma chave "userId" no token de acess
+    // Create a key "userId" with the user id in the acess token
     req.userId = decoded.id;
 
     return next();

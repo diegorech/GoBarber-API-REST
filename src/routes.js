@@ -15,17 +15,19 @@ const upload = multer(multerConfig);
 
 routes.post('/users', UserController.store);
 
+routes.post('/sessions', SessionController.store);
+
 // Pra baixo dessa linha necessita token
+// Bellow this line needs acess token
 routes.use(authMiddleware);
 
 routes.put('/users', UserController.update);
-
-routes.post('/sessions', SessionController.store);
 
 routes.get('/providers', ProviderController.index);
 
 routes.post('/appointments', AppointmentController.store);
 
-// .single - pois será 1 arquivo por vez - ('nome do campo na req')
+// .single (multer) - pois será 1 arquivo por vez - ('nome do campo na req')
+// .single - because it's only 1 file
 routes.post('/files', upload.single('file'), FileController.store);
 export default routes;
