@@ -7,10 +7,7 @@ import File from '../models/File';
 
 class AppointmentController {
   async index(req, res) {
-    let { page = 1 } = req.query;
-    if (!page) {
-      page = 1;
-    }
+    const { page = 1 } = req.query;
 
     const appointments = await Appointment.findAll({
       where: {
