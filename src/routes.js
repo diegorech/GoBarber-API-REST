@@ -25,6 +25,7 @@ routes.put('/users', UserController.update);
 
 routes.get('/providers', ProviderController.index);
 
+routes.get('/appointments', AppointmentController.index);
 routes.post('/appointments', AppointmentController.store);
 
 // .single (multer) - pois será 1 arquivo por vez - ('nome do campo na req')
