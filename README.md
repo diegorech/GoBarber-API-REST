@@ -87,3 +87,8 @@ const appointments = await Appointment.findAll({
 
       # start/endOfDay retornam, respectivamente, o primeiro e último momento da data que recebe -> import from date-fns
         # parsedDate variável do parseISO
+
+
+# MongoDB
+  -> Bando não relacional aqui utlizado para guardar as notificações do provedor de serviço
+  -> Preza pelo desempenho
