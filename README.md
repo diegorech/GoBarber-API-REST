@@ -90,5 +90,33 @@ const appointments = await Appointment.findAll({
 
 
 # MongoDB
-  -> Bando não relacional aqui utlizado para guardar as notificações do provedor de serviço
+  -> Banco não relacional - aqui utlizado para guardar as notificações do provedor de serviço, as notificações n possuem dados muito estruturados ou muitas ligações e o bd não     estrutural ganha em eficiência;
   -> Preza pelo desempenho
+
+  # NotificationController
+
+    const notifications = await Notification.find({
+      user: req.userId,
+    })
+      .sort({ createdAt: 'desc' })
+      .limit(20);
+    return res.json(notifications);
+  }
+
+     -> find() = findAll()
+     -> utiliza channing de métodos
+     -> limit() - para limites da paginação
+     -> desc - para ficar em order decrescente
+
+# Disparador de emails
+  # Em produção -
+    -> Amazon SES
+    -> Mailgun
+    -> Sparkpost
+    -> Mandril(Mailchimp)
+
+  # Em desenvolvimento
+    -> Mailtrap (DEV)(plano free)
+
+  # Template Engines
+    -> Arquivos HTML que podem receber variáveis do nodeJS

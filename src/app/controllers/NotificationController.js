@@ -16,8 +16,6 @@ class NotificationController {
         .json({ error: 'Only providers can load notifications' });
     }
 
-    // find() = findAll()
-    // utiliza channing de métodos
     // limit() - para limites da paginação
     // desc - para ficar em order decrescente
     const notifications = await Notification.find({
@@ -29,10 +27,9 @@ class NotificationController {
   }
 
   async update(req, res) {
-    // const notification = Notification.findById(req.params.id);
-
     // { new: true } - para retornar a nova notificação quando atualizar
     const notification = await Notification.findByIdAndUpdate(
+      // id no primeiro parâmetro
       req.params.id,
       { read: true },
       { new: true }

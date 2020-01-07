@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import { startOfHour, parseISO, isBefore, format, subHours } from 'date-fns';
 import pt from 'date-fns/locale/pt';
+import Mail from '../../lib/Mail';
 
 import Appointment from '../models/Appointment';
 import User from '../models/User';
@@ -120,7 +121,15 @@ class AppointmentController {
   }
 
   async delete(req, res) {
-    const appointment = await Appointment.findByPk(req.params.id);
+    const appointment = await Appointment.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          as: 'provider',
+          attributes: ['name', 'email'],
+        },
+      ],
+    });
 
     // Checa se quem esta cancelando é o usuário logado
     if (appointment.user_id !== req.userId) {
@@ -130,9 +139,10 @@ class AppointmentController {
     }
 
     // Hora do appointment -2 horas para o limite
+    // Appointment hour -2 hours
     const dateWithSub = subHours(appointment.date, 2);
 
-    // Checa se o cancelamento está sendo feito está no limite de 2 horas antes da horá do appointment
+    // Checa se o cancelamento está dentro da hora limite de dateWithSib
     if (isBefore(dateWithSub, new Date())) {
       return res.status(401).json({
         error: 'You can only cancel appointments 2 hours in advance.',
@@ -142,6 +152,12 @@ class AppointmentController {
     appointment.deleted_at = new Date();
 
     await appointment.save();
+
+    await Mail.sendEmail({
+      to: `${appointment.provider.name} <${appointment.provider.email}>`,
+      subject: 'Agendamento cancelado',
+      text: 'Você tem um novo cancelamento',
+    });
 
     return res.json(appointment);
   }
