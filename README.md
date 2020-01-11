@@ -120,3 +120,15 @@ const appointments = await Appointment.findAll({
 
   # Template Engines
     -> Arquivos HTML que podem receber variáveis do nodeJS
+
+
+# Redis
+  -> Banco não relacional como o Mongo mas que recebe apenas chave e valor
+  -> Muito mais rápido e recebe muito mais registros
+
+# Bee Queue
+  -> Ferramenta de filas para node, mais performático, menos robusto
+  -> Sendo usado para envio de emails de cancelamento
+  -> Controla retentativas
+  * Para controlar fila de prioridade utilizar Kue
+    -> Menos performático

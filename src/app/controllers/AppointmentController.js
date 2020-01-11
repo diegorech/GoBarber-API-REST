@@ -1,12 +1,13 @@
 import * as Yup from 'yup';
 import { startOfHour, parseISO, isBefore, format, subHours } from 'date-fns';
 import pt from 'date-fns/locale/pt';
-import Mail from '../../lib/Mail';
+import Queue from '../../lib/Queue';
 
 import Appointment from '../models/Appointment';
 import User from '../models/User';
 import File from '../models/File';
 import Notification from '../schemas/Notification';
+import CancellationMail from '../jobs/CancellationMail';
 
 class AppointmentController {
   async index(req, res) {
@@ -128,10 +129,16 @@ class AppointmentController {
           as: 'provider',
           attributes: ['name', 'email'],
         },
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name'],
+        },
       ],
     });
 
     // Checa se quem esta cancelando é o usuário logado
+    // Checks user
     if (appointment.user_id !== req.userId) {
       return res.status(401).json({
         error: "You don't have permission to cancel this appointment.",
@@ -153,10 +160,11 @@ class AppointmentController {
 
     await appointment.save();
 
-    await Mail.sendEmail({
-      to: `${appointment.provider.name} <${appointment.provider.email}>`,
-      subject: 'Agendamento cancelado',
-      text: 'Você tem um novo cancelamento',
+    // Depois de deletar(cancelar) o appointment, envia um email ao prestador de serviços
+    // After delete(calcel) the appointment, send a email to the provider
+    // Fila replicável e escalável
+    await Queue.add(CancellationMail.key, {
+      appointment,
     });
 
     return res.json(appointment);
