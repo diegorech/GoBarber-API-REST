@@ -14,7 +14,7 @@ class File extends Model {
           // front não terá que fazer nenhum processo para ir atrás da imagem
           type: Sequelize.VIRTUAL,
           get() {
-            return `http://localhost:3333/files/${this.path}`;
+            return `${process.env.APP_URL}/files/${this.path}`;
           },
           // método get() define como o valor será formatado
         },
