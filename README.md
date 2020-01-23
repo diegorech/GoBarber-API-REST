@@ -1,3 +1,5 @@
+GoBarber Backend API REST em nodeJS
+
 # rocketseat-bootcamp
 Starting the goBarber project
 
